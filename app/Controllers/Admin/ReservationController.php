@@ -40,6 +40,9 @@ class ReservationController extends BaseController
         $status = $this->request->getPost('status');
         $notes = $this->request->getPost('notes');
 
+         if (empty($status)) {
+        return $this->errorResponse('DEBUG: Status yang diterima kosong!');
+    }
         if (!in_array($status, ['approved', 'rejected', 'completed', 'cancelled'])) {
             return $this->errorResponse('Status tidak valid');
         }

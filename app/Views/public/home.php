@@ -84,13 +84,13 @@ function scrollToSection(sectionId) {
     });
 }
 
-// // Auto refresh queue status every 30 seconds
-// setInterval(function() {
-//     $.get('/queue/status', function(response) {
-//         if (response.success) {
-//             location.reload();
-//         }
-//     });
-// }, 30000);
+// Auto refresh queue status every 30 seconds
+setInterval(function() {
+    $.get('/queue/status', function(response) {
+        if (response.success) {
+            location.reload();
+        }
+    });
+}, 30000);
 </script>
 <?= $this->endSection() ?>

@@ -35,13 +35,14 @@ $('#statusForm').on('submit', function(e) {
     e.preventDefault();
     
     const reservationId = $('input[name="reservation_id"]').val();
-    const status = $('select[name="status"]').val();
-    const notes = $('textarea[name="notes"]').val();
+
+     
+    // Gunakan .serialize() untuk mendapatkan semua data form sebagai string
+    const formData = $(this).serialize(); // Ini akan mengambil reservation_id, status, dan notes
     
-    $.post(`/admin/reservations/update-status/${reservationId}`, {
-        status: status,
-        notes: notes
-    }, function(response) {
+    // Perhatikan: Anda TIDAK perlu lagi mengambil status dan notes secara terpisah
+    
+    $.post(`/admin/reservations/update-status/${reservationId}`, formData, function(response) {
         if (response.success) {
             showAlert(response.message, 'success');
             closeModal('statusModal');

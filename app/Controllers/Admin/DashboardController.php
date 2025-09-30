@@ -7,6 +7,7 @@ use App\Models\ReservationModel;
 use App\Models\QueueModel;
 use App\Models\DoctorModel;
 use App\Models\PatientModel;
+use App\Models\PrescriptionModel;
 
 class DashboardController extends BaseController
 {
@@ -14,6 +15,7 @@ class DashboardController extends BaseController
     protected $queueModel;
     protected $doctorModel;
     protected $patientModel;
+    protected $prescriptionModel;
 
     public function __construct()
     {
@@ -21,6 +23,7 @@ class DashboardController extends BaseController
         $this->queueModel = new QueueModel();
         $this->doctorModel = new DoctorModel();
         $this->patientModel = new PatientModel();
+        $this->prescriptionModel = new PrescriptionModel();
     }
 
     public function index()
@@ -29,7 +32,12 @@ class DashboardController extends BaseController
         if ($redirect) return $redirect;
 
         $today = date('Y-m-d');
-        
+        $salesResult = $this->prescriptionModel
+            ->selectSum('total_amount', 'today_sales')
+            ->where('DATE(prescription_date)', $today)
+            ->first();
+
+        $todaySales = $salesResult['today_sales'] ?? 0;
         $data = [
             'title' => 'Dashboard Admin',
             'stats' => [
@@ -38,6 +46,7 @@ class DashboardController extends BaseController
                 'today_queues' => $this->queueModel->where('queue_date', $today)->countAllResults(),
                 'active_doctors' => $this->doctorModel->where('is_active', true)->countAllResults(),
                 'total_patients' => $this->patientModel->countAllResults(),
+                'today_sales' => $todaySales,
             ],
             'recent_reservations' => $this->reservationModel->getReservationsWithDetails(null, null),
             'today_queues' => $this->queueModel->getTodayQueuesWithPatients($today),

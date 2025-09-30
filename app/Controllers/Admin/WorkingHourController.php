@@ -24,16 +24,16 @@ class WorkingHourController extends BaseController
 
         $model = new WorkingHourModel();
 
-       $perPage = 10;
+        $perPage = 10;
 
-    $workingHours = $model->select(
+        $workingHours = $model->select(
             'working_hours.*, doctors.name as doctor_name, doctors.specialization'
         )
-        ->join('doctors', 'working_hours.doctor_id = doctors.id')
-        ->orderBy('working_hours.date', 'DESC')
-        ->paginate($perPage, 'working_hours');   // group name opsional
+            ->join('doctors', 'working_hours.doctor_id = doctors.id')
+            ->orderBy('working_hours.date', 'DESC')
+            ->paginate($perPage, 'working_hours');   // group name opsional
 
-    $pager = $model->pager; // instance pager untuk view
+        $pager = $model->pager; // instance pager untuk view
         $data = [
             'title' => 'Jadwal Dokter',
             'working_hours' => $workingHours,
@@ -60,7 +60,9 @@ class WorkingHourController extends BaseController
 
         $data = [
             'title' => 'Tambah Jadwal Dokter',
-            'doctors' => $this->doctorModel->getActiveDoctors()
+            'doctors' => $this->doctorModel->getActiveDoctors(),
+            'working_hour' => null,
+            'action' => '/admin/working-hours/create'
         ];
 
         return view('admin/working_hours/create', $data);
@@ -89,7 +91,8 @@ class WorkingHourController extends BaseController
         $data = [
             'title' => 'Edit Jadwal Dokter',
             'working_hour' => $workingHour,
-            'doctors' => $this->doctorModel->getActiveDoctors()
+            'doctors' => $this->doctorModel->getActiveDoctors(),
+            'action' => '/admin/working-hours/edit/' . $id
         ];
 
         return view('admin/working_hours/edit', $data);

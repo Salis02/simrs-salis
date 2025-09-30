@@ -144,7 +144,7 @@
     }
 
     // Check working hours on page load
-    // $(document).ready(function() {
-    //     checkWorkingHours();
-    // });
+    $(document).ready(function() {
+        checkWorkingHours();
+    });
 </script>

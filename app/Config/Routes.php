@@ -62,4 +62,45 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function($rout
         $routes->post('update-status/(:num)', 'QueueController::updateStatus/$1');
         $routes->post('call-next', 'QueueController::callNext');
     });
+
+    // User Management
+    $routes->group('users', function($routes) {
+        $routes->get('/', 'UserController::index');
+        $routes->get('create', 'UserController::create');
+        $routes->post('create', 'UserController::create');
+        $routes->get('edit/(:num)', 'UserController::edit/$1');
+        $routes->post('edit/(:num)', 'UserController::edit/$1');
+        $routes->post('delete/(:num)', 'UserController::delete/$1');
+    });
+     
+    // Patient Management (Baru)
+    $routes->group('patients', function($routes) {
+        $routes->get('/', 'PatientController::index');
+        $routes->get('create', 'PatientController::create');
+        $routes->post('create', 'PatientController::create');
+        $routes->get('edit/(:num)', 'PatientController::edit/$1');
+        $routes->post('edit/(:num)', 'PatientController::edit/$1');
+        $routes->post('delete/(:num)', 'PatientController::delete/$1'); 
+    });
+
+    // Drugs Management (Baru)
+    $routes->group('drugs', function($routes) {
+        $routes->get('/', 'DrugController::index');
+        $routes->get('create', 'DrugController::create');
+        $routes->post('create', 'DrugController::create');
+        $routes->get('edit/(:num)', 'DrugController::edit/$1');
+        $routes->post('edit/(:num)', 'DrugController::edit/$1');
+        $routes->post('delete/(:num)', 'DrugController::delete/$1'); 
+    });
+
+    // Prescription Management (Baru)
+    $routes->group('prescriptions', function($routes) {
+        $routes->get('/', 'PrescriptionController::index');
+        $routes->get('create', 'PrescriptionController::create');
+        $routes->post('create', 'PrescriptionController::create');
+        $routes->get('view/(:num)', 'PrescriptionController::view/$1'); 
+        $routes->get('edit/(:num)', 'PrescriptionController::edit/$1');
+        $routes->post('edit/(:num)', 'PrescriptionController::edit/$1');
+        $routes->post('delete/(:num)', 'PrescriptionController::delete/$1'); 
+    });
 });
