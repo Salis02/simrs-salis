@@ -34,7 +34,7 @@ class DrugController extends BaseController
     {
         $data = [
             'title' => 'Tambah Obat Baru',
-            'drug' => null, 
+            'drug' => null,
         ];
 
         if ($this->request->is('post')) {
@@ -81,7 +81,9 @@ class DrugController extends BaseController
             }
 
             $saveData = $this->request->getPost();
-            
+            $saveData['stock'] = (int) $saveData['stock'];
+            $saveData['price'] = floatval($saveData['price']);
+
             if ($this->drugModel->update($id, $saveData)) {
                 session()->setFlashdata('success', 'Data obat berhasil diperbarui.');
             } else {
@@ -103,7 +105,7 @@ class DrugController extends BaseController
             session()->setFlashdata('error', 'Obat tidak ditemukan.');
             return redirect()->to(base_url('admin/drugs'));
         }
-        
+
         if ($this->drugModel->delete($id)) {
             session()->setFlashdata('success', 'Obat ' . $drug['name'] . ' berhasil dihapus.');
         } else {

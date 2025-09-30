@@ -35,6 +35,6 @@ class DrugModel extends Model
         'description' => 'permit_empty',
     ];
     protected $validationMessages = [];
-    protected $skipValidation = false;
+    protected $skipValidation = true;
     protected $cleanValidationRules = true;
 }

@@ -64,7 +64,7 @@ class PrescriptionController extends BaseController
             'prescription' => $prescription,
             'patient' => $this->patientModel->find($prescription['patient_id']),
             'doctor' => $this->doctorModel->find($prescription['doctor_id']),
-            'user' => ['username' => 'AdminDummy'], // Dummy user data
+            'user' => ['username'], // Dummy user data
             'items' => $items,
         ];
 

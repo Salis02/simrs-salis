@@ -42,7 +42,7 @@
                             <i class="fas fa-plus mr-1"></i> Obat
                         </a>
                         <a href="/admin/prescriptions" class="<?= (strpos(current_url(true)->getPath(), '/admin/prescriptions') === 0) ? 'text-primary-600 bg-primary-50' : 'text-gray-600 hover:text-primary-600' ?> px-3 py-2 rounded-md text-sm font-medium">
-                            <i class="fas fa-book mr-1"></i> Prescription
+                            <i class="fas fa-book mr-1"></i> Resep
                         </a>
                     </div>
                 </div>
@@ -92,6 +92,9 @@
                 </a>
                 <a href="/admin/drugs" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-primary-600">
                     <i class="fas fa-plus mr-2"></i> Obat
+                </a>
+                <a href="/admin/prescriptions" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-primary-600">
+                    <i class="fas fa-plus mr-2"></i> Resep
                 </a>
                 <a href="/admin/logout" class="block px-3 py-2 rounded-md text-base font-medium text-danger-600">
                     <i class="fas fa-sign-out-alt mr-2"></i> Logout
