@@ -99,18 +99,63 @@
                 </div>
             </div>
         </div>
+        <!-- Penjualan Hari Ini -->
         <div class="bg-white overflow-hidden shadow rounded-lg">
             <div class="p-5">
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
                         <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center">
-                            <i class="fas fa-user-friends text-indigo-600"></i>
+                            <i class="fas fa-coins text-indigo-600"></i>
                         </div>
                     </div>
                     <div class="ml-5 w-0 flex-1">
                         <dl>
-                            <dt class="text-sm font-medium text-gray-500 truncate">Penjualan hari ini</dt>
-                            <dd class="text-lg font-medium text-gray-900"><?= $stats['today_sales'] ?></dd>
+                            <dt class="text-sm font-medium text-gray-500 truncate">Penjualan Hari Ini</dt>
+                            <dd class="text-lg font-semibold text-gray-900">
+                                Rp <?= number_format($stats['today_sales'], 0, ',', '.') ?>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Penjualan Minggu Ini -->
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-calendar-week text-green-600"></i>
+                        </div>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-gray-500 truncate">Penjualan Minggu Ini</dt>
+                            <dd class="text-lg font-semibold text-gray-900">
+                                Rp <?= number_format($stats['weekly_sales'], 0, ',', '.') ?>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Penjualan Bulan Ini -->
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-calendar-alt text-yellow-600"></i>
+                        </div>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-gray-500 truncate">Penjualan Bulan Ini</dt>
+                            <dd class="text-lg font-semibold text-gray-900">
+                                Rp <?= number_format($stats['monthly_sales'], 0, ',', '.') ?>
+                            </dd>
                         </dl>
                     </div>
                 </div>
@@ -292,41 +337,43 @@
 </div>
 
 <script>
-function callNextQueue() {
-    if (!confirm('Panggil antrian berikutnya?')) return;
-    
-    $.post('/admin/queues/call-next', function(response) {
-        if (response.success) {
-            showAlert(`Antrian nomor ${response.data.queue_number} berhasil dipanggil`, 'success');
-            setTimeout(() => location.reload(), 1500);
-        } else {
-            showAlert(response.message, 'error');
-        }
-    }).fail(function(xhr) {
-        showAlert('Terjadi kesalahan saat memanggil antrian', 'error');
-    });
-}
+    function callNextQueue() {
+        if (!confirm('Panggil antrian berikutnya?')) return;
 
-function updateReservationStatus(id, status) {
-    const statusText = status === 'approved' ? 'menyetujui' : 'menolak';
-    
-    if (!confirm(`Yakin ${statusText} reservasi ini?`)) return;
-    
-    $.post(`/admin/reservations/update-status/${id}`, { status: status }, function(response) {
-        if (response.success) {
-            showAlert(response.message, 'success');
-            setTimeout(() => location.reload(), 1500);
-        } else {
-            showAlert(response.message, 'error');
-        }
-    }).fail(function(xhr) {
-        showAlert('Terjadi kesalahan saat mengupdate status', 'error');
-    });
-}
+        $.post('/admin/queues/call-next', function(response) {
+            if (response.success) {
+                showAlert(`Antrian nomor ${response.data.queue_number} berhasil dipanggil`, 'success');
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                showAlert(response.message, 'error');
+            }
+        }).fail(function(xhr) {
+            showAlert('Terjadi kesalahan saat memanggil antrian', 'error');
+        });
+    }
 
-// Auto refresh every 30 seconds
-setInterval(function() {
-    location.reload();
-}, 30000);
+    function updateReservationStatus(id, status) {
+        const statusText = status === 'approved' ? 'menyetujui' : 'menolak';
+
+        if (!confirm(`Yakin ${statusText} reservasi ini?`)) return;
+
+        $.post(`/admin/reservations/update-status/${id}`, {
+            status: status
+        }, function(response) {
+            if (response.success) {
+                showAlert(response.message, 'success');
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                showAlert(response.message, 'error');
+            }
+        }).fail(function(xhr) {
+            showAlert('Terjadi kesalahan saat mengupdate status', 'error');
+        });
+    }
+
+    // Auto refresh every 30 seconds
+    setInterval(function() {
+        location.reload();
+    }, 30000);
 </script>
 <?= $this->endSection() ?>

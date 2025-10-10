@@ -21,13 +21,13 @@
         <?php
         // opsi kosong/default
         if (!empty($placeholder)) {
-            $selected = old($name, $selected, $value ?? '') === '' ? 'selected' : '';
+            $selected = old($name, $value ?? '') === '' ? 'selected' : '';
             echo "<option value=\"\" {$selected}>" . esc($placeholder) . "</option>";
         }
 
         if (!empty($options) && is_array($options)):
             foreach ($options as $optValue => $optLabel):
-                $selectedValue = old($name, $selected ?? $value ?? '');
+                $selectedValue = old($name, $value ?? '');
                 $selectedAttr = (string)$selectedValue === (string)$optValue ? 'selected' : '';
                 
                 ?>

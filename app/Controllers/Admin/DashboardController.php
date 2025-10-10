@@ -32,12 +32,34 @@ class DashboardController extends BaseController
         if ($redirect) return $redirect;
 
         $today = date('Y-m-d');
-        $salesResult = $this->prescriptionModel
-            ->selectSum('total_amount', 'today_sales')
-            ->where('DATE(prescription_date)', $today)
-            ->first();
 
-        $todaySales = $salesResult['today_sales'] ?? 0;
+        // 1️⃣ Pendapatan hari ini
+        $todaySales = $this->prescriptionModel
+            ->selectSum('total_amount', 'today_sales')
+            ->where('DATE(created_at)', $today)
+            ->where('status', 'COMPLETED')
+            ->first()['today_sales'] ?? 0;
+
+        // 2️⃣ Pendapatan minggu ini
+        $startOfWeek = date('Y-m-d', strtotime('monday this week'));
+        $endOfWeek   = date('Y-m-d', strtotime('sunday this week'));
+        $weeklySales = $this->prescriptionModel
+            ->selectSum('total_amount', 'weekly_sales')
+            ->where('DATE(created_at) >=', $startOfWeek)
+            ->where('DATE(created_at) <=', $endOfWeek)
+            ->where('status', 'COMPLETED')
+            ->first()['weekly_sales'] ?? 0;
+
+        // 3️⃣ Pendapatan bulan ini
+        $startOfMonth = date('Y-m-01');
+        $endOfMonth   = date('Y-m-t');
+        $monthlySales = $this->prescriptionModel
+            ->selectSum('total_amount', 'monthly_sales')
+            ->where('DATE(created_at) >=', $startOfMonth)
+            ->where('DATE(created_at) <=', $endOfMonth)
+            ->where('status', 'COMPLETED')
+            ->first()['monthly_sales'] ?? 0;
+
         $data = [
             'title' => 'Dashboard Admin',
             'stats' => [
@@ -47,6 +69,8 @@ class DashboardController extends BaseController
                 'active_doctors' => $this->doctorModel->where('is_active', true)->countAllResults(),
                 'total_patients' => $this->patientModel->countAllResults(),
                 'today_sales' => $todaySales,
+                'weekly_sales' => $weeklySales,
+                'monthly_sales' => $monthlySales,
             ],
             'recent_reservations' => $this->reservationModel->getReservationsWithDetails(null, null),
             'today_queues' => $this->queueModel->getTodayQueuesWithPatients($today),
