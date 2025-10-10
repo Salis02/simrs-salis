@@ -110,10 +110,11 @@
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <span class="text-gray-600 text-sm">
-                        <i class="fas fa-user mr-1"></i>
+                    <a href="/admin/logout" class="text-gray-600 hover:text-danger-600 px-3 py-2 rounded-md text-sm font-medium"> 
                         <?= session('full_name') ?>
-                    </span>
+                        Logout 
+                        <i class="fas fa-sign-out-alt mr-1"></i> 
+                    </a>
                 </div>
             </div>
         </div>

@@ -77,7 +77,7 @@ class QueueModel extends Model
             ->where('queues.queue_date', $date)
             ->where('queues.status', 'serving')
             ->get()
-            ->getFirstRow();
+            ->getRowArray();
     }
 
     public function getWaitingCount($date = null)
