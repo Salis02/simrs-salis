@@ -21,14 +21,38 @@ class PatientController extends BaseController
     // --- READ (Index) ---
     public function index()
     {
+        $redirect = $this->requireAuth();
+        if ($redirect) return $redirect;
+
+        $model = new PatientModel();
+
+        $perPage = 10; // jumlah data per halaman
+        $search = trim((string)$this->request->getGet('search'));
+
+        //Base Query
+        $query = $model->orderBy('id', 'ASC');
+
+        if ($search !== '') {
+            $query->groupStart()
+                ->like('name', $search)
+                ->orLike('phone', $search)
+                ->groupEnd();
+        }
+
+        // Paginasi tetap aktif
+        $patients = $query->paginate($perPage, 'patients');
+        $pager = $model->pager;
+
         $data = [
-            'title' => 'Manajemen Data Pasien',
-            // Ambil semua pasien, urutkan berdasarkan ID terbaru
-            'patients' => $this->patientModel->orderBy('id', 'ASC')->findAll(),
+            'title'    => 'Manajemen Data Pasien',
+            'patients' => $patients,
+            'pager'    => $pager,
+            'search'   => $search
         ];
 
         return view('admin/patients/index', $data);
     }
+
 
     // --- CREATE (GET & POST) ---
     public function create()
@@ -87,7 +111,7 @@ class PatientController extends BaseController
 
             // Data yang akan diupdate
             $saveData = $this->request->getPost();
-            
+
             if ($this->patientModel->update($id, $saveData)) {
                 session()->setFlashdata('success', 'Data pasien berhasil diperbarui.');
             } else {
@@ -110,7 +134,7 @@ class PatientController extends BaseController
             session()->setFlashdata('error', 'Data pasien tidak ditemukan.');
             return redirect()->to(base_url('admin/patients'));
         }
-        
+
         // Proses Penghapusan
         if ($this->patientModel->delete($id)) {
             session()->setFlashdata('success', 'Data pasien ' . $patient['name'] . ' berhasil dihapus.');

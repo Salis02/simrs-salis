@@ -20,18 +20,21 @@
         </div>
     </div>
 
-    <!-- Working Hours Table -->
-    <?= view('components/card', [
-        'content' => view('components/table', [
-            'headers' => ['Dokter', 'Tanggal', 'Jam Praktek', 'Durasi/Pasien', 'Max Pasien', 'Reservasi', 'Aksi'],
-            'data' => $working_hours,
-            'emptyMessage' => 'Belum ada jadwal dokter',
-            'rows' => $this->include('admin/working_hours/table_rows', ['working_hours' => $working_hours])
-        ])
-    ]) ?>
+    <div>
+        <!-- Working Hours Table -->
+        <?= view('components/card', [
+            'content' => view('components/table', [
+                'headers' => ['Dokter', 'Tanggal', 'Jam Praktek', 'Durasi/Pasien', 'Max Pasien', 'Reservasi', 'Aksi'],
+                'data' => $working_hours,
+                'emptyMessage' => 'Belum ada jadwal dokter',
+                'rows' => $this->include('admin/working_hours/table_rows', ['working_hours' => $working_hours])
+            ])
+        ]) ?>
+    </div>
+
     <!-- Pagination -->
-<div class="mt-4 justify-center">
-    <?= $pager->links('working_hours', 'tailwind_full') ?>
-</div>
+    <div class="mt-4 align-item justify-content-center">
+        <?= $pager->links('working_hours', 'tailwind_full') ?>
+    </div>
 </div>
 <?= $this->endSection() ?>
