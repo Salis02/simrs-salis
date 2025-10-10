@@ -30,9 +30,10 @@
                 'variant' => 'secondary',
                 'size' => 'sm',
                 'icon' => 'fas fa-edit',
+                'text' => 'Edit',
                 'class' => 'mr-2'
             ]) ?>
-            
+
             <button onclick="deleteSchedule(<?= $schedule['id'] ?>)" class="text-danger-600 hover:text-danger-900">
                 <i class="fas fa-trash"></i>
             </button>
@@ -41,9 +42,9 @@
 <?php endforeach; ?>
 
 <script>
-function deleteSchedule(id) {
-    if (confirm('Yakin ingin menghapus jadwal ini?')) {
-        window.location.href = `/admin/working-hours/delete/${id}`;
+    function deleteSchedule(id) {
+        if (confirm('Yakin ingin menghapus jadwal ini?')) {
+            window.location.href = `/admin/working-hours/delete/${id}`;
+        }
     }
-}
 </script>

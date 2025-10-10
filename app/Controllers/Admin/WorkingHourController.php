@@ -78,7 +78,7 @@ class WorkingHourController extends BaseController
             return redirect()->to('/admin/working-hours')->with('error', 'Jadwal tidak ditemukan');
         }
 
-        if ($this->request->getMethod() === 'POST') {
+        if ($this->request->getMethod() === 'PUT') {
             $data = $this->request->getPost();
 
             if ($this->workingHourModel->update($id, $data)) {
@@ -88,10 +88,17 @@ class WorkingHourController extends BaseController
             }
         }
 
+        $doctors = $this->doctorModel->getActiveDoctors();
+
+        if (!empty($doctors) && is_object($doctors[0])) {
+            $doctors = json_decode(json_encode($doctors), true);
+        }
+
+
         $data = [
             'title' => 'Edit Jadwal Dokter',
             'working_hour' => $workingHour,
-            'doctors' => $this->doctorModel->getActiveDoctors(),
+            'doctors' => $doctors,
             'action' => '/admin/working-hours/edit/' . $id
         ];
 
