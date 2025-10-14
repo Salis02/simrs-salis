@@ -49,6 +49,9 @@
             <a href="#antrian" class="text-gray-600 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium">
                 <i class="fas fa-users mr-2"></i> Antrian
             </a>
+            <a href="/admin" class="text-gray-600 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium">
+                <i class="fas fa-user mr-2"></i> Login Admin
+            </a>
         </div>
     </div>
 </nav>
