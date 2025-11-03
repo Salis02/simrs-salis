@@ -118,6 +118,7 @@ class UserController extends BaseController
                 // Model Callback (hashPassword) akan otomatis dijalankan di beforeUpdate
             }
 
+            // dd($saveData);
             // 🌟 PERBAIKAN: Panggil metode update()
             $this->userModel->update($id, $saveData);
 
